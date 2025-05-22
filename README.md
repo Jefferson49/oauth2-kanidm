@@ -18,7 +18,7 @@ To install, use composer:
     }
 ],
 "require": {
-    "jefferson49/oauth2-kanidm": "dev-main"
+    "jefferson49/oauth2-kanidm": ">=1.0.0"
 }
 ```
 
