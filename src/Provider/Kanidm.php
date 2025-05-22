@@ -48,4 +48,16 @@ class Kanidm extends GenericProvider
     {
         return new KanidmResourceOwner($response);
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getDefaultScopes(): array
+    {
+        return [
+            'openid',
+            'email',
+            'profile',
+        ];
+    }    
 }
