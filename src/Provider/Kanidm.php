@@ -40,15 +40,57 @@ namespace Jefferson49\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 
 
 class Kanidm extends GenericProvider
 {
+    use BearerAuthorizationTrait;
+
+    /**
+     * @var string Base URL of the nextcloud instance (not including trailing slash).
+     */
+    protected $kanidmUrl = '';
+
     protected function createResourceOwner(array $response, AccessToken $token): KanidmResourceOwner
     {
         return new KanidmResourceOwner($response);
     }
-    
+
+    /**
+     * @inheritdoc
+     */
+    public function getBaseAuthorizationUrl()
+    {
+        return $this->kanidmUrl . '/ui/oauth2';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getBaseAccessTokenUrl(array $params)
+    {
+        return $this->kanidmUrl . '/oauth2/token';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    {
+        return $this->kanidmUrl . '/oauth2/openid/' . $this->clientId . '/userinfo';
+    }
+
+    /**
+     * @inheritdoc
+     */    
+    protected function getRequiredOptions()
+    {
+        return [
+            'kanidmUrl',
+        ];
+    }    
+
     /**
      * @inheritdoc
      */
